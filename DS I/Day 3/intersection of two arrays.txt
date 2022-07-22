@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> countNums1(1001, 0);
+        vector<int> countNums2(1001, 0);
+        vector<int> res;
+        for(int i=0;i<nums1.size();i++)
+            countNums1[nums1[i]]++;
+        for(int i=0;i<nums2.size();i++)
+            countNums2[nums2[i]]++;
+        for(int i=0;i<countNums1.size();i++)
+        {
+            if(countNums1[i]!=0 && countNums2[i]!=0)
+            {
+                int count = min(countNums1[i], countNums2[i]);
+                vector<int>temp(count, i);
+                res.insert(res.end(), temp.begin(), temp.end());
+            }
+        }
+        return res;
+    }
+};
