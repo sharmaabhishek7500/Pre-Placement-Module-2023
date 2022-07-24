@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int n = nums.size();
+        int lo = 0, hi = n - 1, mid = -1;
+        if (n == 1) return 0;
+        if (nums[lo] > nums[lo + 1]) return lo;
+        if (nums[hi] > nums[hi - 1]) return hi;
+        while (lo <= hi) {
+            mid = lo + ((hi - lo) >> 1);
+            if (nums[mid] > (mid - 1 >= 0 ? nums[mid - 1] : INT_MIN) && nums[mid] > (mid + 1 <= n - 1 ? nums[mid + 1] : INT_MIN))
+                return mid;
+            else if (nums[mid] < (mid - 1 >= 0 ? nums[mid - 1] : INT_MIN))
+                hi = mid - 1;
+            else lo = mid + 1;
+        }
+        return mid;
+    }
+};
