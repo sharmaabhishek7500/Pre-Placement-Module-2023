@@ -1,0 +1,23 @@
+class Solution {
+public:
+    static bool comp(vector<int>&a,vector<int>&b)
+    {
+        if(a[1]<b[1])
+            return true;
+        return false;
+    }
+    int eraseOverlapIntervals(vector<vector<int>>& v) 
+    {
+        int n=v.size();
+        
+        sort(v.begin(),v.end(),comp);
+        
+        int back_idx=-1,a=0;
+        
+        for(int i=0;i<v.size();i++)
+           if(back_idx==-1 || v[i][0]>=v[back_idx][1])
+                back_idx=i,a++;
+
+       return n-a;
+    }
+};
