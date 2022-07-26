@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {
+        int firstIndex = 0;
+        int secondIndex = 0;
+        vector<vector<int>> result;
+        while(firstIndex < firstList.size() && secondIndex < secondList.size()){
+            int start = max(firstList[firstIndex][0],secondList[secondIndex][0]);
+            int end = min(firstList[firstIndex][1],secondList[secondIndex][1]);
+            
+            if(start <= firstList[firstIndex][1] && start <= secondList[secondIndex][1]){
+                result.push_back({start,end});
+            }
+            if(firstList[firstIndex][1] > secondList[secondIndex][1]){
+                secondIndex++;
+            }
+            else{
+                firstIndex++;
+            }
+        }
+        return result;
+    }
+};
