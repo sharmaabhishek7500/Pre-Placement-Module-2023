@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> result;
+        if(s.length() < p.length())
+            return result;
+        vector<int> target(26,0);
+        vector<int> words(26,0);
+        for(int i =0; i< p.length();++i){
+            target[p[i]-'a']++;
+            words[s[i]-'a']++;
+        }
+        if(target == words){
+            result.push_back(0);
+        }
+        int left = 1;
+        int right = p.length();
+        while(right<s.length()){
+            words[s[left - 1]-'a']--;
+            words[s[right]-'a']++;
+            if(target == words)
+                result.push_back(left);
+            left++;
+            right++;
+        }
+        return result;
+    }
+};
