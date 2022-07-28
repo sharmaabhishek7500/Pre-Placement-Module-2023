@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+    int answer=0;
+    bool flag=false;
+    if(s.size()<2)return s.size();
+    unordered_map<char,int>solution;
+    for(int i=0;i<s.size();i++){
+        solution[s[i]]++;
+    }
+    if(solution.size()<2)return s.size();
+    for(auto pr:solution){
+        if(pr.second%2==0){
+            answer+=pr.second;
+            //cout<<"1. added "<<pr.first<<" - "<<pr.second<<"\n";
+        }
+        else{
+            if(flag==false){
+                flag=true;
+                answer+=pr.second;
+                //cout<<"2. added "<<pr.first<<" - "<<pr.second<<"\n";
+            }
+            else if(pr.second>1){
+                answer+=pr.second-1;
+                //cout<<"3. added "<<pr.first<<" - "<<pr.second<<"\n";
+            }
+        }
+    }
+    return answer;
+}
+};
