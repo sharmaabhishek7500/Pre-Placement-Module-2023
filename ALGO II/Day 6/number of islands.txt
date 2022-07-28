@@ -1,0 +1,75 @@
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        
+        int m = grid.size();// to store row size
+        int n = grid[0].size();// to store coloumn size
+        
+        vector<pair<int,int>> toVisit;// to store cells need to be visited
+        int visited[m][n];// to memorize visited cells
+        int island=0;// to keep count of island
+        
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                visited[i][j] = 0; // making all cells unvisited
+            }
+        }
+        
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]=='1' && visited[i][j]==0)// if cell is land and not visited
+                {
+                    island++;
+                    toVisit.push_back(make_pair(i,j));// adding to visit
+                    visited[i][j] = 1;// making land visited
+                }
+                
+                while(!toVisit.empty())// running loop to make all connected land visited
+                {
+                    int r= toVisit.front().first;
+                    int c= toVisit.front().second;
+                    
+                    toVisit.erase(toVisit.begin());// erase first land
+                    
+                    if(r>0)// for land up
+                    {
+                        if(grid[r-1][c]=='1' && visited[r-1][c]==0)
+                        {
+                            toVisit.push_back(make_pair(r-1,c));
+                            visited[r-1][c]=1;
+                        }
+                    }
+                    if(r<m-1)// for land down
+                    {
+                        if(grid[r+1][c]=='1' && visited[r+1][c]==0)
+                        {
+                            toVisit.push_back(make_pair(r+1,c));
+                            visited[r+1][c]=1;
+                        }
+                    }
+                    if(c>0)// for land left
+                    {
+                        if(grid[r][c-1]=='1' && visited[r][c-1]==0)
+                        {
+                            toVisit.push_back(make_pair(r,c-1));
+                            visited[r][c-1]=1;
+                        }
+                    }
+                    if(c<n-1)// for land right
+                    {
+                        if(grid[r][c+1]=='1' && visited[r][c+1]==0)
+                        {
+                            toVisit.push_back(make_pair(r,c+1));
+                            visited[r][c+1]=1;
+                        }
+                    }                    
+                }
+            }
+        }
+        return island;
+    }
+};
