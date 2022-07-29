@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        
+        vector<TreeNode *> preStore;
+        
+        storePreorder(root,preStore);
+        
+        bool result = false;
+        
+        for(int i=0; i<preStore.size(); i++) {
+            
+            if(preStore[i]->val == subRoot->val) {
+                result = isSimilarTree(preStore[i],subRoot);
+                if(result)
+                    break;
+            }
+        }
+        
+        return result;
+    }
+    
+    void storePreorder(TreeNode *root, vector<TreeNode *> &preStore) {
+        
+        if(root == NULL)
+            return;
+        
+        preStore.push_back(root);
+        
+        storePreorder(root->left,preStore);
+        storePreorder(root->right,preStore); 
+    }
+    
+    bool isSimilarTree(TreeNode *root1, TreeNode *root2) {
+        if(root1 == NULL && root2 == NULL)
+            return true;
+        if(root1 == NULL || root2 == NULL)
+            return false;
+        
+        if(root1 && root2 && root1->val == root2->val)
+            return isSimilarTree(root1->left,root2->left) && isSimilarTree(root1->right, root2->right);
+        
+        return false;
+    }
+};
