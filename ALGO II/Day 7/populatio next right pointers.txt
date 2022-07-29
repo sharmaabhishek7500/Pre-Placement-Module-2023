@@ -1,0 +1,46 @@
+class Solution {
+public:
+Node* connect(Node *root) {
+
+    if (!root)
+    {  
+      return 0;
+        
+    }
+   
+    queue<Node*> q;
+   
+    q.push(root);
+   
+    Node *lastNode = root;
+   
+    while (!q.empty())
+    {
+        auto tmp = q.front();
+        
+        q.pop();
+        
+        if (tmp -> left)
+        { 
+            q.push(tmp -> left);
+        }
+        if (tmp -> right)
+        {
+            q.push(tmp -> right);  
+        }
+           
+        if (tmp == lastNode) 
+        {
+            tmp -> next = NULL;
+            
+            lastNode = q.back();
+        } 
+        else 
+        {
+            tmp -> next = q.front();
+        }
+    }
+   
+   return root;
+}
+};
