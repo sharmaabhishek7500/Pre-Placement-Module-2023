@@ -1,0 +1,30 @@
+class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        queue<vector<int>> zeros;
+        int n = board.size(), m = board[0].size();
+        for (int i = 0; i < n; i++) {
+            if (board[i][0] == 'O') zeros.push({i, 0});
+            if (board[i][m - 1] == 'O') zeros.push({i, m - 1});
+        }
+        for (int i = 0; i < m; i++) {
+            if (board[0][i] == 'O') zeros.push({0, i});
+            if (board[n - 1][i] == 'O') zeros.push({n - 1, i});
+        }
+        vector<vector<bool>> not_flip(n, vector<bool>(m, 0));
+        while (!zeros.empty()) {
+            vector<int> curr = zeros.front();
+            zeros.pop();
+            not_flip[curr[0]][curr[1]] = true;
+            if (curr[0] + 1 < n && !not_flip[curr[0] + 1][curr[1]] && board[curr[0] + 1][curr[1]] == 'O') zeros.push({curr[0] + 1, curr[1]});
+            if (curr[0] - 1 >= 0 && !not_flip[curr[0] - 1][curr[1]] && board[curr[0] - 1][curr[1]] == 'O') zeros.push({curr[0] - 1, curr[1]});
+            if (curr[1] + 1 < m && !not_flip[curr[0]][curr[1] + 1] && board[curr[0]][curr[1] + 1] == 'O') zeros.push({curr[0], curr[1] + 1});
+            if (curr[1] - 1 >= 0 && !not_flip[curr[0]][curr[1] - 1] && board[curr[0]][curr[1] - 1] == 'O') zeros.push({curr[0], curr[1] - 1});
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!not_flip[i][j]) board[i][j] = 'X';
+            }
+        }
+    }
+};
