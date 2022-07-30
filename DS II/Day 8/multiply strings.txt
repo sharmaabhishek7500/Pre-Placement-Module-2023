@@ -1,0 +1,39 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        
+        // Edge case
+        if(num1 == "0" || num2 == "0")
+            return "0";
+        
+        // Declaring an vector of size of total no of digits in (num1 + num2) and intitializing it with 0
+        vector<int> ans_vector (num1.size() + num2.size(), 0);
+        
+        // build the ans by multiplying one digit at the time
+        for(int i=num1.size()-1; i>=0; i--)
+        {
+            for(int j=num2.size()-1; j>=0; j--)
+            {
+                ans_vector[i+j+1] += (num1[i] - '0')*(num2[j] - '0');      // += to add the carry 
+                ans_vector[i+j] += ans_vector[i+j+1]/10;         // Putting the carry at it's position, which will be added by above line in next iteration
+                ans_vector[i+j+1] %= 10; 
+            }
+        }
+        
+        // There might be some leading 0's in vector, which are not needed
+        int i=0;
+        while(i < ans_vector.size() && ans_vector[i] == 0)
+            i++;
+        
+        // Converting the vector to string
+        string ans = "";
+        while(i < ans_vector.size())
+        {
+            ans.push_back(ans_vector[i] + '0');
+            i++;
+        }
+            
+        return ans;
+        
+    }
+};
