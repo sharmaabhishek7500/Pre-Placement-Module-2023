@@ -1,0 +1,21 @@
+class Solution {
+public:
+ListNode *detectCycle(ListNode *head) {
+
+    unordered_set<ListNode*> myset;
+	
+    while(head!=NULL){
+	
+        if(myset.find(head)!=myset.end())
+		{
+            return head;
+			// if current node isnt last one that means we have found cycle and this head is the pos
+        }
+		
+        myset.insert(head);
+        head=head->next;
+    }
+	
+    return NULL;
+}
+};
