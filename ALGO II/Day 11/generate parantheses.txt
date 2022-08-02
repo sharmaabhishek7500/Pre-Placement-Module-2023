@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        int op=n, cl=n;
+        
+        vector<char>brkt = {'(',')'};
+        vector<string>ans;
+        
+        string s="";
+        
+        helper(ans,brkt,s,op,cl,n,0);
+        
+        return ans;
+    }
+    
+    void helper(vector<string>& ans, vector<char>& brkt, string s, int op, int cl, int n, int x)
+    {
+        
+        if(op!=n) s.push_back(brkt[x]);
+        
+        if(op==0 && cl==0)
+        {
+            ans.push_back(s);
+            return;
+        }
+            
+        if(op<0 || op>cl) return;
+
+        // cout<<s<<" "<<" ";
+        
+        if(op==0){
+            helper(ans,brkt,s,op,cl-1,n,1);
+        }
+        else{
+            helper(ans,brkt,s,op-1,cl,n,0);
+            helper(ans,brkt,s,op,cl-1,n,1);
+        }
+        
+    }
+};
