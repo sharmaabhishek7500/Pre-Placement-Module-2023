@@ -1,0 +1,118 @@
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int x) : val(x), next(nullptr){}
+};
+class MyLinkedList {
+    int size;
+    Node* head;
+    Node* tail;
+public:
+    /*struct Node {
+        int val;
+        Node* next;
+        Node() : val(0), next(nullptr) {}
+        Node(int x) : val(x), next(nullptr) {}
+        Node(int x, Node* next) : val(x), next(next) {}
+    }*/
+    
+    MyLinkedList() {
+        size = 0;
+        head = new Node(0);
+        tail = new Node(0);
+        /*add both a head and a tail pointer*/
+    }
+    
+    int get(int index) {
+        if (index >= size || index < 0) return -1;
+        Node* temp = head->next;
+        for (int i = 0; i < index; i++)
+            temp = temp->next;
+        return temp->val;
+        /*T: O(k)*/
+    }
+    
+    void addAtHead(int val) {
+        Node* newhead = new Node(val);
+        if (head->next == NULL)
+            tail->next = newhead;
+        newhead->next = head->next;
+        head->next = newhead;
+        size++;
+        //T: O(1) also assign tail pointer when 1st node inserts
+    }
+    
+    void addAtTail(int val) {
+        Node* newtail = new Node(val);
+        if (tail->next){
+            tail->next->next = newtail;
+            tail->next = newtail;
+        }
+        else if (head->next == NULL) {
+            head->next = newtail;
+            tail->next = newtail;
+        }
+        size++;
+        //T: O(1)
+    }
+    
+    void addAtIndex(int index, int val) {
+        if (index == size){
+            addAtTail(val);
+        }
+        else if (index == size - 1){
+            Node* temp = tail->next;
+            Node* nnode = new Node(temp->val);
+            temp->val = val;
+            temp->next = nnode;
+            tail->next = nnode;
+            nnode->next = nullptr;
+            size++;
+        }
+        else if (index < size && index >= 0){
+            Node* temp = head->next;
+            for (int i = 0; i < index; i++)
+                temp = temp->next;
+            Node* nnode = new Node(temp->val);
+            temp->val = val;
+            nnode->next = temp->next;
+            temp->next = nnode;
+            size++;
+        }
+        //T: O(n-1)
+    }
+    
+    void deleteAtIndex(int index) {
+        Node* temp = head->next;
+        Node* remove;
+        if (index < size - 1 && index-1 >= 0){
+            for (int i = 0; i < index - 1; i++)
+                temp = temp->next;
+            remove = temp->next;
+            temp->next = temp->next->next;
+            delete remove;
+            size--;
+        }
+        else if (index == 0){
+            remove = head->next;
+            if(size == 1){
+                head->next = nullptr;
+                tail->next = nullptr;
+            }
+            else
+                head->next = head->next->next;
+            delete remove;
+            size--;
+        }
+        else if (index == size - 1){
+            while (temp->next != tail->next)
+                temp = temp->next;
+            tail->next = temp;
+            remove = temp->next;
+            temp->next = nullptr;
+            delete remove;
+            size--;
+        }
+    }//T: O(n-1)
+};
