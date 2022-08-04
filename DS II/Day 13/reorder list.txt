@@ -1,0 +1,25 @@
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        unordered_map<int, ListNode *> m;
+        int i = 0;
+        ListNode *temp = head;
+        while (temp != NULL) {
+            m[i] = temp;
+            i++;
+            temp = temp->next;
+        }
+        head = m[0];
+        temp = head;
+        for (int j = 1; j <= i / 2; j++) {
+            temp->next = m[i - j];
+            temp = temp->next;
+            temp->next = m[j];
+            temp = temp->next;
+        }
+        temp->next = NULL;
+    }
+};
