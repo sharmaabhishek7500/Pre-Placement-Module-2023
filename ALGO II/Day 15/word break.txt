@@ -1,0 +1,24 @@
+class Solution {
+public:
+    set<string>dict;
+    map<int,bool>mem;
+    bool solver(string s, int pos)
+    {
+        if(pos==s.length())
+            return true;
+        if(mem.count(pos))
+            return mem[pos];
+        for(int i=pos;i<s.length();i++)
+        {
+            if((dict.find(s.substr(pos,i-pos+1))!=dict.end()) && solver(s,i+1))
+                return mem[pos]=true;
+        }
+        return mem[pos]=false;
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n=s.length();
+        for(auto x:wordDict)
+            dict.insert(x);
+        return solver(s,0);
+    }
+};
