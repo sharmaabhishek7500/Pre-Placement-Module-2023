@@ -1,0 +1,36 @@
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return generateTree(nums, new TreeNode());
+    }
+    
+    TreeNode* generateTree(vector<int>&roots, TreeNode* root){
+        if(roots.size() == 1){
+            root -> val = roots[0];
+            return root;
+        }
+        vector<int>lhf, rhf;
+        
+        int hf = ( roots.size() - 1 ) / 2;
+        
+        for(int i = 0; i<hf; i++){
+            lhf.push_back(roots[i]);
+        }
+        
+        for(int i = hf+1; i<roots.size(); i++){
+            rhf.push_back(roots[i]);
+        }
+        
+        root -> val = roots[hf];
+        
+        if(lhf.size() > 0){
+            root -> left = generateTree(lhf, new TreeNode());
+        }
+        
+        if(rhf.size() > 0){
+            root -> right = generateTree(rhf, new TreeNode());
+        }
+        
+        return root;
+    }
+};
