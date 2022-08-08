@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        int maxi_lis=1;
+        vector<int>arr(n);
+        for(int i=0;i<n;i++){
+            int len=0;
+            for(int j=0;j<i;j++){
+                if(nums[j]<nums[i])
+                    len=max(len,arr[j]);
+            }
+            arr[i]=len+1;
+            maxi_lis=max(maxi_lis,arr[i]);
+        }
+        vector<int>lis(n);
+        int lis_count=0;
+        for(int i=0;i<n;i++){
+            int len=0;
+            for(int j=0;j<i;j++){
+                if(arr[j]==arr[i]-1 && nums[j]<nums[i])
+                    len+=lis[j];
+            }
+            if(len==0)lis[i]=1;
+            else lis[i]=len;
+            if(arr[i]==maxi_lis)
+                lis_count+=lis[i];
+        }
+        return lis_count;
+    }
+};
